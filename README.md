@@ -15,14 +15,14 @@ You can use this to turn a backlog of links (e.g., Code Vipassana session videos
 ```mermaid
 flowchart TD
   subgraph BigQuery
-    SRC[Source Table\n(id, url, status=PENDING|PROCESSING)]
-    TGT[Target Table\n(id, context, status=COMPLETED|FAILED_PROCESSING)]
+    SRC[Source Table<br/>(id, url, status = PENDING or PROCESSING)]
+    TGT[Target Table<br/>(id, context, status = COMPLETED or FAILED_PROCESSING)]
   end
 
-  CRJ[Cloud Run Job\nthis repo: main.py] -->|select PENDING| SRC
+  CRJ[Cloud Run Job<br/>this repo: main.py] -->|select PENDING| SRC
   CRJ -->|mark PROCESSING| SRC
 
-  CRJ -- parallel POST --> SRV[Your URL Processor\n(Cloud Run service)]
+  CRJ -- parallel POST --> SRV[Your URL Processor<br/>(Cloud Run service)]
   SRV -- text response --> CRJ
 
   CRJ -->|write results| TGT
