@@ -10,23 +10,7 @@ Batch-process a list of video (or any URL) resources stored in BigQuery by calli
 You can use this to turn a backlog of links (e.g., Code Vipassana session videos) into structured text chapters/insights using your own Cloud Run service (which might leverage Gemini or any other model).
 
 
-## Architecture
 
-```mermaid
-flowchart TD
-  subgraph BigQuery
-    SRC[Source Table<br/>(id, url, status = PENDING or PROCESSING)]
-    TGT[Target Table<br/>(id, context, status = COMPLETED or FAILED_PROCESSING)]
-  end
-
-  CRJ[Cloud Run Job<br/>this repo: main.py] -->|select PENDING| SRC
-  CRJ -->|mark PROCESSING| SRC
-
-  CRJ -- parallel POST --> SRV[Your URL Processor<br/>(Cloud Run service)]
-  SRV -- text response --> CRJ
-
-  CRJ -->|write results| TGT
-```
 
 
 ## Repository structure
